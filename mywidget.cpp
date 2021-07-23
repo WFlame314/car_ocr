@@ -2,6 +2,7 @@
 #include "ui_mywidget.h"
 
 #include <QTextEdit>
+#include <QDir>
 
 #define cout qDebug()
 
@@ -11,7 +12,11 @@ MyWidget::MyWidget(QWidget *parent)
 {
     ui->setupUi(this);
     imagea=new QImage();
-    Inintdata();
+    QDir dir;
+    if(dir.mkpath("./data"))
+    {
+        Inintdata();
+    }
 }
 
 MyWidget::~MyWidget()
@@ -351,7 +356,7 @@ void MyWidget::Inintdata()
     QFile file;
     for(;num<10;num++)
     {
-        file.setFileName(QString("./basedata/out-%1.txt").arg(num));
+        file.setFileName(QString(":/data/basedata/out-%1.txt").arg(num));
         file.open(QIODevice::ReadOnly);
         temp=file.readAll().data();
         trains.push_back(basedata(45,90,temp,num));
@@ -359,7 +364,7 @@ void MyWidget::Inintdata()
     }
     for(num=11;num<44;num++)
     {
-        file.setFileName(QString("./basedata/out-%1.txt").arg(num));
+        file.setFileName(QString(":/data/basedata/out-%1.txt").arg(num));
         file.open(QIODevice::ReadOnly);
         temp=file.readAll().data();
         trains.push_back(basedata(45,90,temp,num));
@@ -369,14 +374,14 @@ void MyWidget::Inintdata()
     {
         if(ch!='I'&&ch!='O')
         {
-            file.setFileName(QString("./basedata/out-%1.txt").arg(ch));
+            file.setFileName(QString(":/data/basedata/out-%1.txt").arg(ch));
             file.open(QIODevice::ReadOnly);
             temp=file.readAll().data();
             trains.push_back(basedata(45,90,temp,ch));
             file.close();
         }
     }
-    file.setFileName("./basedata/out-@.txt");
+    file.setFileName(":/data/basedata/out-@.txt");
     file.open(QIODevice::ReadOnly);
     temp=file.readAll().data();
     trains.push_back(basedata(45,90,temp,'@'));
